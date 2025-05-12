@@ -50,6 +50,9 @@ git clone https://github.com/beastrog/skippage.git
 # Navigate to the project directory
 cd skippage
 
+# Navigate to actual directory to install dependencies
+cd "OneDrive\Desktop\skip-smart-mobile-touch-main"
+
 # Install dependencies
 npm install
 
