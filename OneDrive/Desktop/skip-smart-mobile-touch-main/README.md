@@ -92,46 +92,6 @@ npm run build
 # The build output will be in the 'dist' directory
 ```
 
-### Deploying to Vercel
-
-1. Push your code to a GitHub repository
-2. Connect your repository to Vercel
-3. Configure the build settings:
-   - Framework Preset: Vite
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-   - Install Command: `npm install`
-
-Vercel will automatically detect the configuration from the `vercel.json` file.
-
-### Deploying to CodeSandbox
-
-1. Create a new sandbox from GitHub
-2. Import your repository
-3. CodeSandbox will automatically detect the Vite configuration
-4. If you encounter any issues:
-   - Make sure all dependencies are installed
-   - Check that the sandbox environment has access to the API endpoint
-   - Verify that the build command is set to `npm run build`
-
-### Troubleshooting Deployment Issues
-
-1. **API Connection Errors**
-   - Check your internet connection
-   - Verify that the API endpoint is correct and accessible
-   - The application includes retry logic for API failures
-
-2. **Build Failures**
-   - Make sure all dependencies are installed: `npm install`
-   - Clear the cache: `npm cache clean --force`
-   - Remove node_modules and reinstall: `rm -rf node_modules && npm install`
-
-3. **Deployment Issues**
-   - Ensure the build command and output directory are correctly set
-   - Check that the Vercel configuration in `vercel.json` is correct
-   - For CodeSandbox, make sure the sandbox has access to all required dependencies
-
-
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
