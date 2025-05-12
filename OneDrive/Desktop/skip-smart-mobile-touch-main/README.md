@@ -97,13 +97,6 @@ npm run build
 
 You can deploy to platforms like Netlify, Vercel, or GitHub Pages.
 
-## Future Enhancements
-
-- Complete checkout flow with delivery details and payment processing
-- User authentication and order history
-- Location-based skip availability
-- Integration with real-time availability data
-- Admin dashboard for managing skip inventory
 
 ## License
 
