@@ -1,20 +1,22 @@
-# SkipSmart Mobile Touch
+# WeWantWaste Skip Hire Application
 
-![SkipSmart Banner](https://i2.wp.com/www.bioenergyconsult.com/wp-content/uploads/2021/05/skip-bin-scaled.jpg?ssl=1&w=800)
+![WeWantWaste Banner](https://i2.wp.com/www.bioenergyconsult.com/wp-content/uploads/2021/05/skip-bin-scaled.jpg?ssl=1&w=800)
 
-## Project Overview
-
-SkipSmart Mobile Touch is a modern, responsive web application for a skip (dumpster) rental service that allows users to select and book skips of various sizes for waste disposal. The application provides an intuitive interface with smooth animations for browsing and selecting skips based on size, features, and price.
+## Overview
+This is a modern web application for WeWantWaste skip hire services, built with React, TypeScript, Vite, and Tailwind CSS. The application allows users to browse and select skip sizes for waste disposal services.
 
 ## Features
+- Responsive design that works on mobile and desktop
+- Dark/light mode toggle
+- Skip size filtering options (road placement, heavy waste)
+- Interactive UI with animations using Framer Motion
+- API integration with the WeWantWaste backend
 
-- **Interactive Skip Selection**: Browse and select from various skip sizes with detailed information
-- **Filtering Options**: Filter skips by features like road placement and heavy waste capacity
-- **Responsive Design**: Fully responsive interface that works on mobile, tablet, and desktop devices
-- **Animated UI**: Smooth animations and transitions for an engaging user experience
-- **Dark Mode Support**: Full support for both light and dark themes
-- **Real-time Feedback**: Toast notifications provide immediate feedback on user actions
+## Prerequisites
+- Node.js 18.x or higher
+- npm 9.x or higher
 
+## Installation
 ## Live Demo
 
 [View Live Demo](https://codesandbox.io/p/github/beastrog/skippage) - *Link will be updated once CodeSandbox is set up*
@@ -36,8 +38,8 @@ This project is built with modern web technologies:
 
 ### Prerequisites
 
-- Node.js (v16 or later)
-- npm or yarn
+- Node.js (v18 or later)
+- npm (v9 or later)
 
 ### Installation
 
@@ -50,13 +52,9 @@ cd skippage
 
 # Install dependencies
 npm install
-# or
-yarn install
 
 # Start the development server
 npm run dev
-# or
-yarn dev
 ```
 
 The application will be available at `http://localhost:8080`
@@ -85,17 +83,53 @@ src/
 
 ## Deployment
 
-To deploy this project to production:
+To build this project for production:
 
 ```bash
 # Build the project
 npm run build
 
 # The build output will be in the 'dist' directory
-# Deploy this directory to your hosting provider
 ```
 
-You can deploy to platforms like Netlify, Vercel, or GitHub Pages.
+### Deploying to Vercel
+
+1. Push your code to a GitHub repository
+2. Connect your repository to Vercel
+3. Configure the build settings:
+   - Framework Preset: Vite
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
+
+Vercel will automatically detect the configuration from the `vercel.json` file.
+
+### Deploying to CodeSandbox
+
+1. Create a new sandbox from GitHub
+2. Import your repository
+3. CodeSandbox will automatically detect the Vite configuration
+4. If you encounter any issues:
+   - Make sure all dependencies are installed
+   - Check that the sandbox environment has access to the API endpoint
+   - Verify that the build command is set to `npm run build`
+
+### Troubleshooting Deployment Issues
+
+1. **API Connection Errors**
+   - Check your internet connection
+   - Verify that the API endpoint is correct and accessible
+   - The application includes retry logic for API failures
+
+2. **Build Failures**
+   - Make sure all dependencies are installed: `npm install`
+   - Clear the cache: `npm cache clean --force`
+   - Remove node_modules and reinstall: `rm -rf node_modules && npm install`
+
+3. **Deployment Issues**
+   - Ensure the build command and output directory are correctly set
+   - Check that the Vercel configuration in `vercel.json` is correct
+   - For CodeSandbox, make sure the sandbox has access to all required dependencies
 
 
 ## License

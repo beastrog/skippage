@@ -1,0 +1,9 @@
+{
+  "template": "vite-react-ts",
+  "container": {
+    "port": 8080,
+    "startScript": "dev"
+  },
+  "hardReloadOnChange": true,
+  "infiniteLoopProtection": true
+}

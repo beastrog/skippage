@@ -25,29 +25,96 @@ const Index = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Track if the component is mounted to prevent state updates after unmount
+    let isMounted = true;
+    // Track retry attempts
+    let retryCount = 0;
+    const maxRetries = 3;
+    const retryDelay = 1500; // 1.5 seconds
+    
     const fetchSkips = async () => {
       try {
-        setLoading(true);
-        const response = await fetch('https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft');
+        if (isMounted) setLoading(true);
+        
+        // Use a timeout to abort the fetch if it takes too long
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+        
+        // Use environment variables for API URL and parameters
+        const API_URL = import.meta.env.VITE_API_URL || 'https://app.wewantwaste.co.uk/api';
+        const DEFAULT_POSTCODE = import.meta.env.VITE_DEFAULT_POSTCODE || 'NR32';
+        const DEFAULT_AREA = import.meta.env.VITE_DEFAULT_AREA || 'Lowestoft';
+        
+        const response = await fetch(
+          `${API_URL}/skips/by-location?postcode=${DEFAULT_POSTCODE}&area=${DEFAULT_AREA}`,
+          { 
+            signal: controller.signal,
+            headers: {
+              'Accept': 'application/json',
+              'Cache-Control': 'no-cache'
+            } 
+          }
+        );
+        
+        // Clear the timeout since the request completed
+        clearTimeout(timeoutId);
         
         if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
+          throw new Error(`Error: ${response.status} - ${response.statusText}`);
         }
 
         const data = await response.json();
+        
+        // Validate the response data
+        if (!Array.isArray(data)) {
+          throw new Error('Invalid data format received from API');
+        }
+        
         // Sort skips by size ascending
         const sortedSkips = data.sort((a: Skip, b: Skip) => a.size - b.size);
-        setSkips(sortedSkips);
-      } catch (err) {
+        
+        if (isMounted) {
+          setSkips(sortedSkips);
+          setError(null); // Clear any previous errors
+        }
+      } catch (err: any) {
         console.error('Failed to fetch skip data:', err);
-        setError('Failed to load skip options. Please try again later.');
-        toast.error('Failed to load skip options. Please try again later.');
+        
+        // Handle abort errors separately
+        if (err.name === 'AbortError') {
+          if (isMounted) {
+            setError('Request timed out. Please check your connection and try again.');
+            toast.error('Request timed out. Please check your connection and try again.');
+          }
+        } 
+        // Implement retry logic for network errors or 5xx server errors
+        else if (retryCount < maxRetries && 
+                (err.message.includes('network') || 
+                 err.message.includes('5') || 
+                 err.message.includes('failed'))) {
+          retryCount++;
+          console.log(`Retrying fetch (${retryCount}/${maxRetries})...`);
+          
+          // Use exponential backoff for retries
+          setTimeout(fetchSkips, retryDelay * retryCount);
+          return; // Exit early to avoid setting error state
+        }
+        // For other errors, show error message
+        else if (isMounted) {
+          setError('Failed to load skip options. Please try again later.');
+          toast.error('Failed to load skip options. Please try again later.');
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) setLoading(false);
       }
     };
 
     fetchSkips();
+    
+    // Cleanup function to prevent memory leaks and state updates after unmount
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
